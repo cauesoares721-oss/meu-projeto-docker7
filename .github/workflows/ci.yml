@@ -1,4 +1,4 @@
-name: CI
+kkkkkkkname: CI
 
 on:
   push:
@@ -6,7 +6,9 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest    steps:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout do código
         uses: actions/checkout@v4
 
@@ -30,8 +32,7 @@ jobs:
               exit 0
             fi
             sleep 3
- 
-           done
+          done
 
           docker compose logs
           exit 1
@@ -43,7 +44,8 @@ jobs:
           -d '{"id":"ci-test","name":"Teste CI","completed":false}'
 
           curl -sf http://localhost:3000/items | grep "Teste CI"
-  - name: Logs
+
+      - name: Logs
         if: failure()
         run: docker compose logs
 
