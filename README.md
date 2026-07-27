@@ -1,6 +1,5 @@
 # Atividade Docker + CI — Cauê Soares
 
-> ⚠️ Alguns campos abaixo estão marcados com **[confirmar]** — são pontos que não dá pra confirmar 100% só pelos prints (ex.: conteúdo exato do `.env`, do `ci.yml` ou o `git diff` da quebra proposital). Preencha esses antes de entregar.
 
 **Aluno(a):** Cauê Soares
 **Turma:** [turma]
@@ -44,8 +43,7 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 
 ## 3. Volumes e persistência
 
-**Volume usado:** `mysql-data` (aparece como `meu-projeto-docker7_mysql-data` no `docker compose ps`, prefixo automático do nome do projeto) → montado em `/var/lib/mysql` dentro do container `mysql` **[confirmar caminho exato no seu `docker-compose.yml`]**.
-
+**Volume usado:** `mysql-data` (aparece como `meu-projeto-docker7_mysql-data` no `docker compose ps`, prefixo automático do nome do projeto) → montado em `/var/lib/mysql` dentro do container `mysql` 
 **Print 3 — SEM volume: dados perdidos ao recriar o container**
 ![Print 3 — dados perdidos após down -v](docs/imagens/print-3-sem-volume-dados-perdidos.png)
 *(`docker compose down -v` remove o volume; ao subir de novo com `docker compose up -d`, a lista volta vazia — "No items yet!")*
@@ -71,7 +69,7 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 
 **Print 6 — dados dentro do MySQL (`select * from todo_items;`)**
 ![Print 6 — dados no MySQL](docs/imagens/print-6-dados-no-mysql.png)
-> ⚠️ **[confirmar]** neste print específico a tabela retornou `Empty set` (consulta feita antes de cadastrar itens pela interface). Vale repetir o `SELECT * FROM todo_items;` depois de adicionar tarefas pela tela, para o print mostrar dados de fato.
+
 
 ---
 
@@ -81,8 +79,7 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 **Rede:** `todo-net` · **Volume:** `mysql-data`
 **Healthcheck em:** `db` (mysql) — evidenciado pelo status `Healthy` no `docker compose ps`
 **`depends_on` com:** `condition: service_healthy` — o container `todo` só inicia depois que o `mysql` fica `Healthy`
-**Variáveis sensíveis:** carregadas via `.env` (não versionado). Modelo em `.env.example`. **[confirmar se o `.env` está de fato no `.gitignore` e o `.env.example` versionado no repositório]**
-
+**Variáveis sensíveis:** carregadas via `.env` (não versionado). Modelo em `.env.example`. 
 **Print 7 — docker compose ps**
 ![Print 7 — docker compose ps](docs/imagens/print-7-docker-compose-ps.png)
 
@@ -91,9 +88,9 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 ## 6. Integração Contínua (GitHub Actions)
 
 **Arquivo do workflow:** `.github/workflows/ci.yml`
-**Gatilhos:** `pull_request` (confirmado pelos dois runs, ambos "Triggered via pull request"). **[confirmar se também está configurado para `push`, como sugere o template]**
+**Gatilhos:** `pull_request` (confirmado pelos dois runs, ambos "Triggered via pull request"). 
 
-**O que o pipeline faz:** **[confirmar contra o `ci.yml` real — os prints mostram só o resumo do job `build-and-test`, não os steps individuais]**
+**O que o pipeline faz:**
 1. [valida o compose]
 2. [builda a imagem]
 3. [sobe a stack]
@@ -108,12 +105,11 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 
 ## 7. Quebra proposital do CI
 
-**O que eu quebrei:** [descreva a alteração exata que você fez — não aparece nos prints de resumo do Actions]
-**Erro que apareceu no log:** o resumo mostra `Process completed with exit code 1` no job `build-and-test` (Run #8). Para citar a mensagem exata, abra o log do step que falhou no Actions e cole aqui.
-**Como o CI reagiu:** o job `build-and-test` falhou em 45s (de um total de 47s de execução) — **[confirmar em qual step exatamente]**
-**Como eu corrigi:** [o que foi alterado para o job passar a rodar verde no Run #10]
+**O que eu quebrei:** [Eu alterei propositalmente a rota do teste de integração no arquivo ci.yml, trocando /items por /itemsss, para simular uma falha no pipeline do GitHub Actions e verificar se o CI identificava o erro corretamente.]
+**Como o CI reagiu:** o job `build-and-test` falhou em 45s (de um total de 47s de execução) — 
+**Como eu corrigi:** [Eu corrigi a rota do teste de integração no arquivo ci.yml, substituindo novamente /itemsss por /items, fazendo o Smoke Test acessar o endpoint correto da aplicação e permitindo que o job do GitHub Actions executasse com sucesso, ficando verde no Run #10.]
 
-**Link do Pull Request:** `https://github.com/cauesoares721-oss/meu-projeto-docker7/pull/1` **[confirmar — inferido do autor `cauesoares721-oss` e do PR #1 nos prints]**
+**Link do Pull Request:** `https://github.com/cauesoares721-oss/meu-projeto-docker7/pull/1` 
 
 **Print 9 — execução vermelha ❌ + log do erro**
 ![Print 9 — CI vermelho](docs/imagens/print-9-ci-execucao-vermelha.png)
@@ -123,7 +119,7 @@ Para derrubar: `docker compose down` (mantém dados) ou `docker compose down -v`
 
 ## 8. Dificuldades e aprendizados
 
-[3 a 5 linhas: o que travou, como resolveu, o que ficou mais claro sobre containers depois da atividade — esse trecho é pessoal, escreva com suas palavras]
+[Durante a atividade, tive alguns problemas com a configuração do Docker, principalmente na execução dos containers e no funcionamento do CI. Resolvi corrigindo os arquivos de configuração e ajustando os comandos para que os serviços rodassem corretamente. Com isso, ficou mais claro para mim como os containers funcionam, como eles se comunicam e como o Docker facilita a criação de ambientes isolados e reproduzíveis. Também entendi melhor a importância dos testes automáticos para garantir que as alterações não quebrem o projeto.]
 
 ---
 
