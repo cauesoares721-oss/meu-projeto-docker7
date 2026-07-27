@@ -44,7 +44,6 @@ jobs:
           -d '{"id":"ci-test","name":"Teste CI","completed":false}'
 
           curl -sf http://localhost:3000/items | grep "Teste CI"
-
       - name: Logs
         if: failure()
         run: docker compose logs
